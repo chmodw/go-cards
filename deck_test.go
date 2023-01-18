@@ -1,6 +1,9 @@
 package main
 
-import "testing"
+import (
+	"os"
+	"testing"
+)
 
 func TestNewDeck(t *testing.T) {
 	d := newDeck()
@@ -18,4 +21,19 @@ func TestNewDeck(t *testing.T) {
 		t.Errorf("Expected last card of Four of Clubs, but god %v", d[len(d)-1])
 	}
 
+}
+
+func TestSaveToDeckAndNewDeckFromFile(t *testing.T) {
+	os.Remove("_decktesting")
+
+	d := newDeck()
+	d.saveToFile("_decktesting")
+
+	ld := newDeckFromFile("_decktesting")
+
+	if len(ld) != 16 {
+		t.Errorf("Exptected 16 cards in check, go %v", len(ld))
+	}
+
+	os.Remove("_decktesting")
 }
